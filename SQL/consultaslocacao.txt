@@ -1,0 +1,48 @@
+inner join dependencia AS d ON d.objeto_id = depinativo.depinativo_dep
+
+ WHERE ('2013-11-01' < depinativo.depinativo_inicio or '2013-11-01'>depinativo.depinativo_fim)
+
+
+SELECT * FROM (parentesco AS p INNER JOIN grauloc AS g ON p.parentesco_tipo_grau = g.grauloc_id) 
+           INNER JOIN tipolocacao AS t ON t.obj_tipo_grauloc = g.grauloc_id INNER JOIN dependencia AS d ON d.objeto_id = t.obj_tipo_obj           
+           WHERE d.objeto_id NOT IN (select distinct depinativo.depinativo_dep from depinativo where('2013-11-01' < depinativo.depinativo_inicio or '2013-11-01'>depinativo.depinativo_fim))
+ AND t.obj_tipo_evento =3 AND p.parentesco_id= 3
+           AND NOT EXISTS(select * from itemlocacao as i inner join tipolocacao as t on t.obj_tipo_id = i.itemobj_tipoloc where t.obj_tipo_obj = d.objeto_id and i.itemobj_data = '2013-11-01')
+
+
+
+
+
+
+
+SELECT * FROM (parentesco AS p INNER JOIN grauloc AS g ON p.parentesco_tipo_grau = g.grauloc_id) 
+           INNER JOIN tipolocacao AS t ON t.obj_tipo_grauloc = g.grauloc_id INNER JOIN dependencia AS d ON d.objeto_id = t.obj_tipo_obj           
+           WHERE   
+t.obj_tipo_evento =1 AND p.parentesco_id= 3
+           AND NOT EXISTS(select * from itemlocacao as i inner join tipolocacao as t on t.obj_tipo_id = i.itemobj_tipoloc INNER JOIN dependencia AS d ON d.objeto_id = t.obj_tipo_obj  inner join depinativo as depinativo on depinativo.depinativo_dep = d.objeto_id where ('2013-11-10' < depinativo.depinativo_inicio or '2013-11-10'>depinativo.depinativo_fim)  and i.itemobj_data='2013-11-10')
+
+
+
+
+
+
+original
+ SELECT * FROM (parentesco AS p INNER JOIN grauloc AS g ON p.parentesco_tipo_grau = g.grauloc_id) 
+           INNER JOIN tipolocacao AS t ON t.obj_tipo_grauloc = g.grauloc_id INNER JOIN dependencia AS d ON d.objeto_id = t.obj_tipo_obj
+           WHERE t.obj_tipo_evento =3 AND p.parentesco_id = 3 AND d.obeto_disponivel = 1 
+           AND NOT EXISTS(select * from itemlocacao as i inner join tipolocacao as t on t.obj_tipo_id = i.itemobj_tipoloc where t.obj_tipo_obj = d.objeto_id and i.itemobj_data = '2013-11-10')
+
+
+
+
+SELECT * FROM tipolocacao inner join dependencia on obj_tipo_obj = objeto_id WHERE objeto_id NOT IN (SELECT depinativo_id FROM depinativo WHERE '2013-11-15' BETWEEN depinativo_inicio AND depinativo_fim and obj_tipo_id = 1) and obj_tipo_id = 1
+
+
+SELECT * FROM (parentesco AS p INNER JOIN grauloc AS g ON p.parentesco_tipo_grau = g.grauloc_id) 
+           INNER JOIN tipolocacao AS t ON t.obj_tipo_grauloc = g.grauloc_id INNER JOIN dependencia AS d ON d.objeto_id = t.obj_tipo_obj
+          WHERE objeto_id NOT IN (SELECT depinativo_id FROM depinativo WHERE '$data' BETWEEN depinativo_inicio AND depinativo_fim ) and t.obj_tipo_evento =" . $evento . " AND p.parentesco_id = " . $parente . "
+           AND NOT EXISTS(select * from itemlocacao as i inner join tipolocacao as t on t.obj_tipo_id = i.itemobj_tipoloc where t.obj_tipo_obj = d.objeto_id and i.itemobj_data = '" . $data . "');
+
+
+
+SELECT * FROM tipolocacao inner join dependencia on obj_tipo_obj = objeto_id WHERE objeto_id NOT IN (SELECT depinativo_dep FROM depinativo WHERE '2013-12-23' BETWEEN depinativo_inicio AND depinativo_fim) and obj_tipo_id =10
